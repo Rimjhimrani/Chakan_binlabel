@@ -559,7 +559,7 @@ def generate_sticker_labels(excel_file_path, output_pdf_path, status_callback=No
         elements.append(line_loc_table)
 
         # Add smaller spacer between line location and bottom section
-        elements.append(Spacer(1, 0.3*cm))
+        elements.append(Spacer(1, 0.5*cm))
 
         # Bottom section - Enhanced with intelligent bus model detection
         mtm_box_width = 1.2*cm
@@ -624,7 +624,8 @@ def generate_sticker_labels(excel_file_path, output_pdf_path, status_callback=No
 
         # Adjust spacing for better layout
         left_spacer_width = 0.5*cm
-        right_spacer_width = content_width - (mtm_box_width * 4) - qr_width - left_spacer_width
+        middle_spacer_width = 0.3*cm  # Reduced from calculated value to 0.3cm
+        right_spacer_width = content_width - (mtm_box_width * 4) - qr_width - left_spacer_width - middle_spacer_width
 
         # Bottom section layout
         bottom_section_data = [
