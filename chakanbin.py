@@ -89,7 +89,7 @@ def find_bus_model_column(df_columns):
 def detect_bus_model_and_qty(row, qty_veh_col, bus_model_col=None):
     """
     Improved bus model detection that properly matches bus model to MTM box
-    Returns a dictionary with keys '3W', 'Mky', '4W' and their respective quantities
+    Returns a dictionary with keys '3W', '4W' and their respective quantities
     """
     # Initialize result dictionary
     result = {'3W': '', '4W': ''}
@@ -102,7 +102,7 @@ def detect_bus_model_and_qty(row, qty_veh_col, bus_model_col=None):
     if not qty_veh:
         return result
     
-    # Method 1: Check if quantity already contains model info (e.g., "Mky:2", "3W-3", "4W 5")
+    # Method 1: Check if quantity already contains model info (e.g., "3W-3", "4W 5")
     qty_pattern = r'(\d+M)[:\-\s]*(\d+)'
     matches = re.findall(qty_pattern, qty_veh.upper())
     
@@ -802,7 +802,7 @@ def main():
             - 📏 Standard sticker size (10cm x 15cm)
             - 🔢 QR code for each part
             - 📍 Location tracking
-            - 🚌 Bus model detection (3W, Mky, 4W)
+            - 🚌 Bus model detection (3W, 4W)
             - 📦 Quantity per bin/vehicle
             """)
         
