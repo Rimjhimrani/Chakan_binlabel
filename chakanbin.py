@@ -624,7 +624,7 @@ def generate_sticker_labels(excel_file_path, output_pdf_path, status_callback=No
 
         # Adjust spacing for better layout
         left_spacer_width = 0.3*cm
-        middle_spacer_width = 0.3*cm  # Reduced from calculated value to 0.3cm
+        middle_spacer_width = 0.2*cm  # Reduced from calculated value to 0.3cm
         right_spacer_width = content_width - (mtm_box_width * 4) - qr_width - left_spacer_width - middle_spacer_width
 
         # Bottom section layout
