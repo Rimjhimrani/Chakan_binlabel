@@ -269,7 +269,7 @@ def generate_qr_code(data_string):
         img_buffer.seek(0)
         
         # Create a QR code image with specified size
-        return Image(img_buffer, width=2.0*cm, height=2.0*cm)
+        return Image(img_buffer, width=2.2*cm, height=2.2*cm)
     except Exception as e:
         st.error(f"Error generating QR code: {e}")
         import traceback
@@ -599,8 +599,8 @@ def generate_sticker_labels(excel_file_path, output_pdf_path, status_callback=No
         ]))
 
         # QR code with preserved size
-        qr_width = 2.0*cm
-        qr_height = 2.0*cm
+        qr_width = 2.2*cm
+        qr_height = 2.2*cm
 
         if qr_image:
             qr_table = Table(
@@ -623,7 +623,7 @@ def generate_sticker_labels(excel_file_path, output_pdf_path, status_callback=No
         ]))
 
         # Adjust spacing for better layout
-        left_spacer_width = 0.5*cm
+        left_spacer_width = 0.3*cm
         middle_spacer_width = 0.3*cm  # Reduced from calculated value to 0.3cm
         right_spacer_width = content_width - (mtm_box_width * 4) - qr_width - left_spacer_width - middle_spacer_width
 
