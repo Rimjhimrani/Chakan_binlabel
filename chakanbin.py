@@ -92,7 +92,7 @@ def detect_bus_model_and_qty(row, qty_veh_col, bus_model_col=None):
     Returns a dictionary with keys '3W', 'Mky', '4W' and their respective quantities
     """
     # Initialize result dictionary
-    result = {'3W': '', 'Mky': '', '4W': ''}
+    result = {'3W': '', '4W': ''}
     
     # Get quantity value
     qty_veh = ""
@@ -121,22 +121,16 @@ def detect_bus_model_and_qty(row, qty_veh_col, bus_model_col=None):
         # Check for exact matches first
         if bus_model_value in ['3W', '7']:
             detected_model = '3W'
-        elif bus_model_value in ['Mky', '9']:
-            detected_model = 'Mky'
         elif bus_model_value in ['4W', '12']:
             detected_model = '4W'
         # Check for patterns within the text
         elif re.search(r'\b3W\b', bus_model_value):
             detected_model = '3W'
-        elif re.search(r'\bMky\b', bus_model_value):
-            detected_model = 'Mky'
         elif re.search(r'\b4W\b', bus_model_value):
             detected_model = '4W'
         # Check for standalone numbers
         elif re.search(r'\b7\b', bus_model_value):
             detected_model = '3W'
-        elif re.search(r'\b9\b', bus_model_value):
-            detected_model = 'Mky'
         elif re.search(r'\b12\b', bus_model_value):
             detected_model = '4W'
     
@@ -168,18 +162,12 @@ def detect_bus_model_and_qty(row, qty_veh_col, bus_model_col=None):
             if re.search(r'\b3W\b', value_str):
                 result['3W'] = qty_veh
                 return result
-            elif re.search(r'\bMky\b', value_str):
-                result['Mky'] = qty_veh
-                return result
             elif re.search(r'\b4W\b', value_str):
                 result['4W'] = qty_veh
                 return result
             # Then look for standalone numbers in context
             elif re.search(r'\b7\b', value_str) and any(keyword in value_str for keyword in ['BUS', 'METER', 'M']):
                 result['3W'] = qty_veh
-                return result
-            elif re.search(r'\b9\b', value_str) and any(keyword in value_str for keyword in ['BUS', 'METER', 'M']):
-                result['Mky'] = qty_veh
                 return result
             elif re.search(r'\b12\b', value_str) and any(keyword in value_str for keyword in ['BUS', 'METER', 'M']):
                 result['4W'] = qty_veh
@@ -194,8 +182,6 @@ def detect_bus_model_and_qty(row, qty_veh_col, bus_model_col=None):
             # Use word boundaries to avoid false matches
             if re.search(r'\b3W\b', value_str):
                 detected_models.append('3W')
-            elif re.search(r'\bMky\b', value_str):
-                detected_models.append('Mky')
             elif re.search(r'\b4W\b', value_str):
                 detected_models.append('4W')
     
@@ -215,9 +201,6 @@ def detect_bus_model_and_qty(row, qty_veh_col, bus_model_col=None):
             # Look for exact matches of just the number
             if value_str == '7':
                 result['3W'] = qty_veh
-                return result
-            elif value_str == '9':
-                result['Mky'] = qty_veh
                 return result
             elif value_str == '12':
                 result['4W'] = qty_veh
@@ -550,14 +533,11 @@ def generate_sticker_labels(excel_file_path, output_pdf_path, status_callback=No
 
         # Create MTM boxes with detected quantities
         position_matrix_data = [
-            ["3W", "Mky", "4W"],
+            ["3W", "4W"],
             [
                 Paragraph(f"<b>{mtm_quantities['3W']}</b>", ParagraphStyle(
                     name='Bold3W', fontName='Helvetica-Bold', fontSize=10, alignment=TA_CENTER
                 )) if mtm_quantities['3W'] else "",
-                Paragraph(f"<b>{mtm_quantities['Mky']}</b>", ParagraphStyle(
-                    name='BoldMky', fontName='Helvetica-Bold', fontSize=10, alignment=TA_CENTER
-                )) if mtm_quantities['Mky'] else "",
                 Paragraph(f"<b>{mtm_quantities['4W']}</b>", ParagraphStyle(
                     name='Bold4W', fontName='Helvetica-Bold', fontSize=10, alignment=TA_CENTER
                 )) if mtm_quantities['4W'] else ""
@@ -854,7 +834,7 @@ def main():
         st.subheader("💡 Tips")
         st.markdown("""
         - Use clear column headers like "Part No", "Description", "Location"
-        - For bus models, use "3W", "Mky", "4W" format
+        - For bus models, use "3W", "4W" format
         - Include quantity information in "Qty/Bin" or "Qty/Veh" columns
         - Location strings will be automatically parsed into components
         """)
@@ -867,7 +847,7 @@ def main():
             'Location': ['A1_B2_C3', 'D4_E5_F6', 'G7_H8_I9'],
             'Qty/Bin': [5, 10, 8],
             'Qty/Veh': [2, 4, 1],
-            'Bus Model': ['Mky', '4W', '3W']
+            'Bus Model': ['4W', '3W']
         })
         st.dataframe(sample_data, use_container_width=True)
 
