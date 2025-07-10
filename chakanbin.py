@@ -269,7 +269,7 @@ def generate_qr_code(data_string):
         img_buffer.seek(0)
         
         # Create a QR code image with specified size
-        return Image(img_buffer, width=2.5*cm, height=2.5*cm)
+        return Image(img_buffer, width=2.0*cm, height=2.0*cm)
     except Exception as e:
         st.error(f"Error generating QR code: {e}")
         import traceback
