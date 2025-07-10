@@ -89,10 +89,10 @@ def find_bus_model_column(df_columns):
 def detect_bus_model_and_qty(row, qty_veh_col, bus_model_col=None):
     """
     Improved bus model detection that properly matches bus model to MTM box
-    Returns a dictionary with keys '3W', 'Mky', 'Puma' and their respective quantities
+    Returns a dictionary with keys '3W', 'Mky', '4W' and their respective quantities
     """
     # Initialize result dictionary
-    result = {'3W': '', 'Mky': '', 'Puma': ''}
+    result = {'3W': '', 'Mky': '', '4W': ''}
     
     # Get quantity value
     qty_veh = ""
@@ -102,7 +102,7 @@ def detect_bus_model_and_qty(row, qty_veh_col, bus_model_col=None):
     if not qty_veh:
         return result
     
-    # Method 1: Check if quantity already contains model info (e.g., "Mky:2", "3W-3", "Puma 5")
+    # Method 1: Check if quantity already contains model info (e.g., "Mky:2", "3W-3", "4W 5")
     qty_pattern = r'(\d+M)[:\-\s]*(\d+)'
     matches = re.findall(qty_pattern, qty_veh.upper())
     
@@ -123,22 +123,22 @@ def detect_bus_model_and_qty(row, qty_veh_col, bus_model_col=None):
             detected_model = '3W'
         elif bus_model_value in ['Mky', '9']:
             detected_model = 'Mky'
-        elif bus_model_value in ['Puma', '12']:
-            detected_model = 'Puma'
+        elif bus_model_value in ['4W', '12']:
+            detected_model = '4W'
         # Check for patterns within the text
         elif re.search(r'\b3W\b', bus_model_value):
             detected_model = '3W'
         elif re.search(r'\bMky\b', bus_model_value):
             detected_model = 'Mky'
-        elif re.search(r'\bPuma\b', bus_model_value):
-            detected_model = 'Puma'
+        elif re.search(r'\b4W\b', bus_model_value):
+            detected_model = '4W'
         # Check for standalone numbers
         elif re.search(r'\b7\b', bus_model_value):
             detected_model = '3W'
         elif re.search(r'\b9\b', bus_model_value):
             detected_model = 'Mky'
         elif re.search(r'\b12\b', bus_model_value):
-            detected_model = 'Puma'
+            detected_model = '4W'
     
     # If we found a model in the dedicated column, use it
     if detected_model:
@@ -171,8 +171,8 @@ def detect_bus_model_and_qty(row, qty_veh_col, bus_model_col=None):
             elif re.search(r'\bMky\b', value_str):
                 result['Mky'] = qty_veh
                 return result
-            elif re.search(r'\bPuma\b', value_str):
-                result['Puma'] = qty_veh
+            elif re.search(r'\b4W\b', value_str):
+                result['4W'] = qty_veh
                 return result
             # Then look for standalone numbers in context
             elif re.search(r'\b7\b', value_str) and any(keyword in value_str for keyword in ['BUS', 'METER', 'M']):
@@ -182,7 +182,7 @@ def detect_bus_model_and_qty(row, qty_veh_col, bus_model_col=None):
                 result['Mky'] = qty_veh
                 return result
             elif re.search(r'\b12\b', value_str) and any(keyword in value_str for keyword in ['BUS', 'METER', 'M']):
-                result['Puma'] = qty_veh
+                result['4W'] = qty_veh
                 return result
     
     # Method 4: Search in other columns as fallback
@@ -196,8 +196,8 @@ def detect_bus_model_and_qty(row, qty_veh_col, bus_model_col=None):
                 detected_models.append('3W')
             elif re.search(r'\bMky\b', value_str):
                 detected_models.append('Mky')
-            elif re.search(r'\bPuma\b', value_str):
-                detected_models.append('Puma')
+            elif re.search(r'\b4W\b', value_str):
+                detected_models.append('4W')
     
     # Remove duplicates while preserving order
     detected_models = list(dict.fromkeys(detected_models))
@@ -220,7 +220,7 @@ def detect_bus_model_and_qty(row, qty_veh_col, bus_model_col=None):
                 result['Mky'] = qty_veh
                 return result
             elif value_str == '12':
-                result['Puma'] = qty_veh
+                result['4W'] = qty_veh
                 return result
     
     # Method 6: If still no model detected, return empty (no boxes filled)
@@ -550,7 +550,7 @@ def generate_sticker_labels(excel_file_path, output_pdf_path, status_callback=No
 
         # Create MTM boxes with detected quantities
         position_matrix_data = [
-            ["3W", "Mky", "Puma"],
+            ["3W", "Mky", "4W"],
             [
                 Paragraph(f"<b>{mtm_quantities['3W']}</b>", ParagraphStyle(
                     name='Bold3W', fontName='Helvetica-Bold', fontSize=10, alignment=TA_CENTER
@@ -558,9 +558,9 @@ def generate_sticker_labels(excel_file_path, output_pdf_path, status_callback=No
                 Paragraph(f"<b>{mtm_quantities['Mky']}</b>", ParagraphStyle(
                     name='BoldMky', fontName='Helvetica-Bold', fontSize=10, alignment=TA_CENTER
                 )) if mtm_quantities['Mky'] else "",
-                Paragraph(f"<b>{mtm_quantities['Puma']}</b>", ParagraphStyle(
-                    name='BoldPuma', fontName='Helvetica-Bold', fontSize=10, alignment=TA_CENTER
-                )) if mtm_quantities['Puma'] else ""
+                Paragraph(f"<b>{mtm_quantities['4W']}</b>", ParagraphStyle(
+                    name='Bold4W', fontName='Helvetica-Bold', fontSize=10, alignment=TA_CENTER
+                )) if mtm_quantities['4W'] else ""
             ]
         ]
 
@@ -822,7 +822,7 @@ def main():
             - 📏 Standard sticker size (10cm x 15cm)
             - 🔢 QR code for each part
             - 📍 Location tracking
-            - 🚌 Bus model detection (3W, Mky, Puma)
+            - 🚌 Bus model detection (3W, Mky, 4W)
             - 📦 Quantity per bin/vehicle
             """)
         
@@ -854,7 +854,7 @@ def main():
         st.subheader("💡 Tips")
         st.markdown("""
         - Use clear column headers like "Part No", "Description", "Location"
-        - For bus models, use "3W", "Mky", "Puma" format
+        - For bus models, use "3W", "Mky", "4W" format
         - Include quantity information in "Qty/Bin" or "Qty/Veh" columns
         - Location strings will be automatically parsed into components
         """)
@@ -867,7 +867,7 @@ def main():
             'Location': ['A1_B2_C3', 'D4_E5_F6', 'G7_H8_I9'],
             'Qty/Bin': [5, 10, 8],
             'Qty/Veh': [2, 4, 1],
-            'Bus Model': ['Mky', 'Puma', '3W']
+            'Bus Model': ['Mky', '4W', '3W']
         })
         st.dataframe(sample_data, use_container_width=True)
 
