@@ -669,10 +669,10 @@ def generate_sticker_labels(excel_file_path, output_pdf_path, status_callback=No
         return None
 
 def main():
-    st.set_page_config(page_title="Sticker Label Generator", layout="wide")
+    st.set_page_config(page_title="Chakan Bin Label Generator", layout="wide")
     
-    st.title("🏷️ Sticker Label Generator")
-    st.markdown("Generate professional sticker labels with QR codes from Excel/CSV data")
+    st.title("🏷️ Chakan Bin Label Generator")
+    st.markdown("Developed and Designed by Agilomatrix")
     
     # File upload
     uploaded_file = st.file_uploader(
