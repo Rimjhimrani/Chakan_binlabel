@@ -309,13 +309,13 @@ def extract_location_data_from_excel(row_data):
 def extract_store_location_data_from_excel(row_data):
     """Extract store location data from Excel row for Store Location"""
     # Extract ABB values from Excel columns
-    zone = str(row_data.get('Zone', ''))
-    location = str(row_data.get('Location', ''))
-    floor = str(row_data.get('Floor', ''))
-    rack_no = str(row_data.get('Rack No', ''))
-    level_in_rack = str(row_data.get('Level in Rack', ''))
-    cell = str(row_data.get('Cell', ''))
-    no = str(row_data.get('No', ''))
+    zone = str(row_data.get('ABB ZONE', ''))
+    location = str(row_data.get('ABB LOCATION', ''))
+    floor = str(row_data.get('ABB FLOOR', ''))
+    rack_no = str(row_data.get('ABB RACK NO', ''))
+    level_in_rack = str(row_data.get('ABB LEVEL IN RACK', ''))
+    cell = str(row_data.get('ABB CELL', ''))
+    no = str(row_data.get('ABB NO', ''))
     
     return [zone, location, floor, rack_no, level_in_rack, cell, no]
 def generate_sticker_labels(excel_file_path, output_pdf_path, status_callback=None):
