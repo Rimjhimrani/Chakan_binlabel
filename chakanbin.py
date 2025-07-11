@@ -804,6 +804,9 @@ def main():
     sample_data = {
         'Part No': ['08-DRA-14-02', 'P0012124-07', 'P0012126-07'],
         'Part Desc': ['BELLOW ASSY. WITH RETAINING CLIP', 'GUARD RING (hirkesh)', 'GUARD RING SEAL (hirkesh)'],
+        'Bin Type': ['TOTE', 'BIN C', 'BIN A'],
+        'Qty/bin': [360, 20, 120],
+        'Qty/veh': [10, 5, 2]
         'Bus model': ['3WC', '3WM', '3WS'],
         'Station No': ['CW40RH', 'CW40RH', 'CW40RH'],
         'Rack': ['R', 'R', 'R'],
@@ -818,9 +821,6 @@ def main():
         'ABB LEVEL IN RACK': ['C', 'D', 'B'],
         'ABB CELL': [0, 0, 0],
         'ABB NO': [1, 4, 5],
-        'Qty/bin': [360, 20, 120],
-        'Bin Type': ['TOTE', 'BIN C', 'BIN A'],
-        'Qty/veh': [10, 5, 2]
     }
     
     sample_df = pd.DataFrame(sample_data)
@@ -830,6 +830,9 @@ def main():
     **Column Requirements:**
     - **Part No**: Part number or identifier
     - **Part Desc**: Part description
+    - **Bin Type**: Type of bin (TOTE, BIN A, BIN B, BIN C, etc.)
+    - **Qty/bin**: Quantity per bin
+    - **Qty/veh**: Quantity per vehicle
     - **Bus model**: Bus model type (3WC, 3WM, 3WS, 4W, etc.)
     - **Station No**: Station identifier
     - **Rack**: Rack identifier
@@ -844,9 +847,6 @@ def main():
     - **ABB LEVEL IN RACK**: ABB level in rack
     - **ABB CELL**: ABB cell number
     - **ABB NO**: ABB number
-    - **Qty/bin**: Quantity per bin
-    - **Bin Type**: Type of bin (TOTE, BIN A, BIN B, BIN C, etc.)
-    - **Qty/veh**: Quantity per vehicle
     
     ℹ️ Column names are case-insensitive and can contain variations (e.g., 'Part No', 'PART_NO', 'part_no', etc.)
     
