@@ -296,11 +296,11 @@ def parse_location_string(location_str):
 def extract_location_data_from_excel(row_data):
     """Extract location data from Excel row for Line Location"""
     # Extract values from Excel columns
-    bus_model = str(row_data.get('Bus Model', ''))
+    bus_model = str(row_data.get('Bus model', ''))
     station_no = str(row_data.get('Station No', ''))
     rack = str(row_data.get('Rack', ''))
-    rack_no_1st = str(row_data.get('RACK NO (1st digit)', ''))
-    rack_no_2nd = str(row_data.get('RACK NO (2nd digit)', ''))
+    rack_no_1st = str(row_data.get('Rack No (1st digit)', ''))
+    rack_no_2nd = str(row_data.get('Rack No (2nd digit)', ''))
     level = str(row_data.get('Level', ''))
     cell = str(row_data.get('Cell', ''))
     
