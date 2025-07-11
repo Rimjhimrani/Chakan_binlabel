@@ -806,7 +806,7 @@ def main():
         'Part Desc': ['BELLOW ASSY. WITH RETAINING CLIP', 'GUARD RING (hirkesh)', 'GUARD RING SEAL (hirkesh)'],
         'Bin Type': ['TOTE', 'BIN C', 'BIN A'],
         'Qty/bin': [360, 20, 120],
-        'Qty/veh': [10, 5, 2]
+        'Qty/veh': [10, 5, 2],
         'Bus model': ['3WC', '3WM', '3WS'],
         'Station No': ['CW40RH', 'CW40RH', 'CW40RH'],
         'Rack': ['R', 'R', 'R'],
