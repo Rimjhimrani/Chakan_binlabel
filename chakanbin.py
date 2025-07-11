@@ -318,7 +318,6 @@ def extract_store_location_data_from_excel(row_data):
     no = str(row_data.get('No', ''))
     
     return [zone, location, floor, rack_no, level_in_rack, cell, no]
-
 def generate_sticker_labels(excel_file_path, output_pdf_path, status_callback=None):
     """Generate sticker labels with QR code from Excel data"""
     if status_callback:
@@ -511,7 +510,7 @@ def generate_sticker_labels(excel_file_path, output_pdf_path, status_callback=No
         inner_col_widths = [w * inner_table_width / total_proportion for w in col_proportions]
 
         # Extract store location values from Excel data
-        store_loc_values = extract_store_location_data_from_excel(row_data)
+        store_loc_values = extract_store_location_data_from_excel(row)
 
         store_loc_inner_table = Table(
             [store_loc_values],
@@ -543,7 +542,7 @@ def generate_sticker_labels(excel_file_path, output_pdf_path, status_callback=No
         ))
 
         # Extract line location values from Excel data
-        location_parts = extract_location_data_from_excel(row_data)
+        location_parts = extract_location_data_from_excel(row)
 
         # Create the inner table
         line_loc_inner_table = Table(
@@ -551,7 +550,6 @@ def generate_sticker_labels(excel_file_path, output_pdf_path, status_callback=No
             colWidths=inner_col_widths,
             rowHeights=[location_row_height]
         )
-
         line_loc_inner_table.setStyle(TableStyle([
             ('GRID', (0, 0), (-1, -1), 1.2, colors.Color(0, 0, 0, alpha=0.95)),  # Darker grid lines
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
