@@ -295,14 +295,32 @@ def parse_location_string(location_str):
 
 def extract_location_data_from_excel(row_data):
     """Extract location data from Excel row for Line Location"""
-    # Extract values from Excel columns
-    bus_model = str(row_data.get('Bus model', ''))
-    station_no = str(row_data.get('Station No', ''))
-    rack = str(row_data.get('Rack', ''))
-    rack_no_1st = str(row_data.get('Rack No (1st digit)', ''))
-    rack_no_2nd = str(row_data.get('Rack No (2nd digit)', ''))
-    level = str(row_data.get('Level', ''))
-    cell = str(row_data.get('Cell', ''))
+    # Get all available columns for debugging
+    available_cols = list(row_data.index) if hasattr(row_data, 'index') else []
+    
+    # Try different variations of column names (case-insensitive)
+    def find_column_value(possible_names, default=''):
+        for name in possible_names:
+            # Try exact match first
+            if name in row_data:
+                val = row_data[name]
+                return str(val) if pd.notna(val) else default
+            
+            # Try case-insensitive match
+            for col in available_cols:
+                if isinstance(col, str) and col.upper() == name.upper():
+                    val = row_data[col]
+                    return str(val) if pd.notna(val) else default
+        return default
+    
+    # Extract values with multiple possible column names
+    bus_model = find_column_value(['Bus Model', 'Bus model', 'BUS MODEL', 'BUSMODEL', 'Bus_Model'])
+    station_no = find_column_value(['Station No', 'Station no', 'STATION NO', 'STATIONNO', 'Station_No'])
+    rack = find_column_value(['Rack', 'RACK', 'rack'])
+    rack_no_1st = find_column_value(['Rack No (1st digit)', 'RACK NO (1st digit)', 'Rack_No_1st', 'RACK_NO_1ST'])
+    rack_no_2nd = find_column_value(['Rack No (2nd digit)', 'RACK NO (2nd digit)', 'Rack_No_2nd', 'RACK_NO_2ND'])
+    level = find_column_value(['Level', 'LEVEL', 'level'])
+    cell = find_column_value(['Cell', 'CELL', 'cell'])
     
     return [bus_model, station_no, rack, rack_no_1st, rack_no_2nd, level, cell]
 
@@ -540,10 +558,8 @@ def generate_sticker_labels(excel_file_path, output_pdf_path, status_callback=No
         line_loc_label = Paragraph("Line Location", ParagraphStyle(
             name='LineLoc', fontName='Helvetica-Bold', fontSize=11, alignment=TA_CENTER
         ))
-
         # Extract line location values from Excel data
         location_parts = extract_location_data_from_excel(row)
-
         # Create the inner table
         line_loc_inner_table = Table(
             [location_parts],
