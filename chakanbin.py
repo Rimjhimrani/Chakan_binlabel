@@ -700,7 +700,11 @@ def main():
     st.set_page_config(page_title="Chakan Bin Label Generator", layout="wide")
     
     st.title("🏷️ Chakan Bin Label Generator")
-    st.markdown("Developed and Designed by Agilomatrix")
+    st.markdown(
+        "<p style='font-size:18px; font-style:italic; margin-top:-10px; text-align:left;'>"
+        "Designed and Developed by Agilomatrix</p>",
+        unsafe_allow_html=True
+    )
     
     # File upload
     uploaded_file = st.file_uploader(
@@ -793,33 +797,61 @@ def main():
     else:
         st.info("👆 Please upload an Excel or CSV file to get started")
         
-        # Show sample data format
-        st.subheader("📋 Expected Data Format")
-        sample_data = {
-            'Part_No': ['P001', 'P002', 'P003'],
-            'Description': ['Brake Pad Set', 'Oil Filter', 'Spark Plug'],
-            'Location': ['A1_B2_C3_D4_E5_F6_G7', 'B1_C2_D3_E4_F5_G6_H7', 'C1_D2_E3_F4_G5_H6_I7'],
-            'Qty/Bin': [10, 25, 50],
-            'Qty/Veh': [2, 1, 4],
-            'Bus_Model': ['4W', '3WS', '3WM'],
-            'Store_Location': ['Main_Store_A1_B2_C3_D4_E5', 'Secondary_Store_B1_C2_D3_E4_F5', 'Warehouse_C1_D2_E3_F4_G5']
-        }
-        
-        sample_df = pd.DataFrame(sample_data)
-        st.dataframe(sample_df)
-        
-        st.markdown("""
-        **Column Requirements:**
-        - **Part_No**: Part number or identifier
-        - **Description**: Part description
-        - **Location**: Storage location (can be separated by underscores)
-        - **Qty/Bin**: Quantity per bin
-        - **Qty/Veh**: Quantity per vehicle (optional)
-        - **Bus_Model**: Bus model type (4W, 3WS, 3WM, 3WC) (optional)
-        - **Store_Location**: Store location details (optional)
-        
-        ℹ️ Column names are case-insensitive and can contain variations (e.g., 'Part No', 'PART_NO', etc.)
-        """)
+        st.info("👆 Please upload an Excel or CSV file to get started")
+    
+    # Show sample data format
+    st.subheader("📋 Expected Data Format")
+    sample_data = {
+        'Part No': ['08-DRA-14-02', 'P0012124-07', 'P0012126-07'],
+        'Part Desc': ['BELLOW ASSY. WITH RETAINING CLIP', 'GUARD RING (hirkesh)', 'GUARD RING SEAL (hirkesh)'],
+        'Bus model': ['3WC', '3WM', '3WS'],
+        'Station No': ['CW40RH', 'CW40RH', 'CW40RH'],
+        'Rack': ['R', 'R', 'R'],
+        'Rack No (1st digit)': [0, 0, 0],
+        'Rack No (2nd digit)': [2, 2, 2],
+        'Level': ['A', 'A', 'A'],
+        'Cell': [1, 2, 3],
+        'ABB ZONE': ['HRD', 'HRD', 'HRD'],
+        'ABB LOCATION': ['ABF', 'ABF', 'ABF'],
+        'ABB FLOOR': [1, 1, 1],
+        'ABB RACK NO': [2, 2, 2],
+        'ABB LEVEL IN RACK': ['C', 'D', 'B'],
+        'ABB CELL': [0, 0, 0],
+        'ABB NO': [1, 4, 5],
+        'Qty/bin': [360, 20, 120],
+        'Bin Type': ['TOTE', 'BIN C', 'BIN A'],
+        'Qty/veh': [10, 5, 2]
+    }
+    
+    sample_df = pd.DataFrame(sample_data)
+    st.dataframe(sample_df)
+    
+    st.markdown("""
+    **Column Requirements:**
+    - **Part No**: Part number or identifier
+    - **Part Desc**: Part description
+    - **Bus model**: Bus model type (3WC, 3WM, 3WS, 4W, etc.)
+    - **Station No**: Station identifier
+    - **Rack**: Rack identifier
+    - **Rack No (1st digit)**: First digit of rack number
+    - **Rack No (2nd digit)**: Second digit of rack number
+    - **Level**: Storage level (A, B, C, etc.)
+    - **Cell**: Cell number
+    - **ABB ZONE**: ABB zone identifier
+    - **ABB LOCATION**: ABB location code
+    - **ABB FLOOR**: ABB floor number
+    - **ABB RACK NO**: ABB rack number
+    - **ABB LEVEL IN RACK**: ABB level in rack
+    - **ABB CELL**: ABB cell number
+    - **ABB NO**: ABB number
+    - **Qty/bin**: Quantity per bin
+    - **Bin Type**: Type of bin (TOTE, BIN A, BIN B, BIN C, etc.)
+    - **Qty/veh**: Quantity per vehicle
+    
+    ℹ️ Column names are case-insensitive and can contain variations (e.g., 'Part No', 'PART_NO', 'part_no', etc.)
+    
+    📍 **Location Information**: The system will automatically combine location fields to create a comprehensive storage location identifier.
+    """)
 
 if __name__ == "__main__":
     main()
