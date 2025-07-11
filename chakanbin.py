@@ -738,7 +738,7 @@ def main():
             return
         
         # Generate stickers button
-        if st.button("🏷️ Generate Sticker Labels", type="primary"):
+        if st.button("🏷️ Generate Labels", type="primary"):
             # Create output filename
             output_filename = f"sticker_labels_{uploaded_file.name.split('.')[0]}.pdf"
             
