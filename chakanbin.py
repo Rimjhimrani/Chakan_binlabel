@@ -796,8 +796,6 @@ def main():
     
     else:
         st.info("👆 Please upload an Excel or CSV file to get started")
-        
-        st.info("👆 Please upload an Excel or CSV file to get started")
     
     # Show sample data format
     st.subheader("📋 Expected Data Format")
