@@ -325,14 +325,20 @@ def extract_location_data_from_excel(row_data):
 
 def extract_store_location_data_from_excel(row_data):
     """Extract store location data from Excel row for Store Location"""
-    # Extract ABB values from Excel columns
-    zone = str(row_data.get('ABB ZONE', ''))
-    location = str(row_data.get('ABB LOCATION', ''))
-    floor = str(row_data.get('ABB FLOOR', ''))
-    rack_no = str(row_data.get('ABB RACK NO', ''))
-    level_in_rack = str(row_data.get('ABB LEVEL IN RACK', ''))
-    cell = str(row_data.get('ABB CELL', ''))
-    no = str(row_data.get('ABB NO', ''))
+    def get_clean_value(key, default=''):
+        val = row_data.get(key, default)
+        if pd.notna(val) and str(val).lower() != 'nan':
+            return str(val)
+        return default
+    
+    # Extract ABB values from Excel columns with proper NaN handling
+    zone = get_clean_value('ABB ZONE', '')
+    location = get_clean_value('ABB LOCATION', '')
+    floor = get_clean_value('ABB FLOOR', '')
+    rack_no = get_clean_value('ABB RACK NO', '')
+    level_in_rack = get_clean_value('ABB LEVEL IN RACK', '')
+    cell = get_clean_value('ABB CELL', '')
+    no = get_clean_value('ABB NO', '')
     
     return [zone, location, floor, rack_no, level_in_rack, cell, no]
 def generate_sticker_labels(excel_file_path, output_pdf_path, status_callback=None):
