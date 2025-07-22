@@ -97,12 +97,7 @@ def detect_bus_model_and_qty(row, qty_veh_col, bus_model_col=None):
     # Get quantity value
     qty_veh = ""
     if qty_veh_col and qty_veh_col in row and pd.notna(row[qty_veh_col]):
-        qty_veh_raw = row[qty_veh_col]
-        if pd.notna(qty_veh_raw):
-            if isinstance(qty_veh_raw, float) and qty_veh_raw.is_integer():
-                qty_veh = str(int(qty_veh_raw))  # Show as whole number
-            else:
-                qty_veh = str(qty_veh_raw).strip()  # Keep decimal if present
+        qty_veh = str(row[qty_veh_col]).strip()
     
     if not qty_veh:
         return result
