@@ -570,7 +570,7 @@ def generate_sticker_labels(excel_file_path, output_pdf_path, status_callback=No
         ))
         # Extract line location values from Excel data
         location_parts = extract_location_data_from_excel(row)
-         location_parts = [
+        location_parts = [
             str(int(float(val))) if isinstance(val, str) and re.match(r'^\d+\.0$', val) else val
             for val in location_parts
         ]
